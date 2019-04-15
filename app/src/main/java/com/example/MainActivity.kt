@@ -22,22 +22,17 @@ class MainActivity : AppCompatActivity() {
         val adapter = ExampleAdapter(strList)
         recyclerView.adapter = adapter
 
-
-        val swipeHandlerDelete = object : SwipeToDeleteCallback(applicationContext) {
+        ItemTouchHelper(object : SwipeToDeleteCallback(applicationContext) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, p1: Int) {
                 adapter.removeAt(viewHolder.adapterPosition)
             }
-        }
-        val swipeHandlerEdit = object : SwipeToEditCallback(applicationContext) {
+        }).attachToRecyclerView(recyclerView)
+
+        ItemTouchHelper(object : SwipeToEditCallback(applicationContext) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, p1: Int) {
                 adapter.editAt(viewHolder.adapterPosition, "new text")
             }
-        }
-        val itemTouchHelperDelete = ItemTouchHelper(swipeHandlerDelete)
-        val itemTouchHelperEdit = ItemTouchHelper(swipeHandlerEdit)
-
-        itemTouchHelperDelete.attachToRecyclerView(recyclerView)
-        itemTouchHelperEdit.attachToRecyclerView(recyclerView)
+        }).attachToRecyclerView(recyclerView)
 
     }
 }
