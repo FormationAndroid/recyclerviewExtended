@@ -29,6 +29,11 @@ class ExampleAdapter(private val datas: ArrayList<String>) : RecyclerView.Adapte
         notifyItemRemoved(position)
     }
 
+    fun editAt(position: Int, str: String) {
+        datas[position] = str
+        notifyItemChanged(position)
+    }
+
 
     override fun getItemCount(): Int {
         return datas.size

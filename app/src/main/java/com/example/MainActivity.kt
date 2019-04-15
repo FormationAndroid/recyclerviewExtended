@@ -2,6 +2,8 @@ package com.example
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -19,5 +21,23 @@ class MainActivity : AppCompatActivity() {
 
         val adapter = ExampleAdapter(strList)
         recyclerView.adapter = adapter
+
+
+        val swipeHandlerDelete = object : SwipeToDeleteCallback(applicationContext) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, p1: Int) {
+                adapter.removeAt(viewHolder.adapterPosition)
+            }
+        }
+        val swipeHandlerEdit = object : SwipeToEditCallback(applicationContext) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, p1: Int) {
+                adapter.editAt(viewHolder.adapterPosition, "new text")
+            }
+        }
+        val itemTouchHelperDelete = ItemTouchHelper(swipeHandlerDelete)
+        val itemTouchHelperEdit = ItemTouchHelper(swipeHandlerEdit)
+
+        itemTouchHelperDelete.attachToRecyclerView(recyclerView)
+        itemTouchHelperEdit.attachToRecyclerView(recyclerView)
+
     }
 }
