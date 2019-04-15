@@ -22,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         val adapter = ExampleAdapter(strList)
         recyclerView.adapter = adapter
 
+
+        val callback = SimpleItemTouchHelperCallback(adapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(recyclerView)
+
         ItemTouchHelper(object : SwipeToDeleteCallback(applicationContext) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, p1: Int) {
                 adapter.removeAt(viewHolder.adapterPosition)
